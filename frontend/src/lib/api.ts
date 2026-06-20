@@ -1,4 +1,8 @@
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// On Vercel: frontend and backend are same domain, use relative /api/*
+// Locally: point to localhost:8000
+const API = typeof window !== "undefined"
+  ? (process.env.NEXT_PUBLIC_API_URL || "")
+  : (process.env.NEXT_PUBLIC_API_URL || "");
 
 export interface PredictRequest {
   age: number;
@@ -54,39 +58,43 @@ export interface LeaderboardEntry {
   cv_r2_std: number;
 }
 
-export async function predictCost(req: PredictRequest): Promise<PredictResponse> {
-  const res = await fetch(`${API}/api/predict-cost`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(req),
-  });
+async function apiFetch(path: string, options?: RequestInit) {
+  const url = `${API}${path}`;
+  const res = await fetch(url, options);
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
+export async function predictCost(req: PredictRequest): Promise<PredictResponse> {
+  return apiFetch("/api/predict-cost", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(req),
+  });
+}
+
 export async function getQuote(shareId: string): Promise<Quote> {
-  const res = await fetch(`${API}/api/quote/${shareId}`);
-  if (!res.ok) throw new Error("Quote not found");
-  return res.json();
+  return apiFetch(`/api/quote/${shareId}`);
 }
 
 export async function getHistory(): Promise<{ quotes: Quote[] }> {
-  const res = await fetch(`${API}/api/history`);
-  return res.json();
+  return apiFetch("/api/history");
 }
 
 export async function getLeaderboard(): Promise<{ leaderboard: LeaderboardEntry[] }> {
-  const res = await fetch(`${API}/api/model-leaderboard`);
-  return res.json();
+  return apiFetch("/api/model-leaderboard");
 }
 
 export async function getRegionalStats(): Promise<{
   regions: Record<string, { mean: number; median: number; std: number }>;
 }> {
-  const res = await fetch(`${API}/api/regional-stats`);
-  return res.json();
+  return apiFetch("/api/regional-stats");
 }
 
 export function fmt(n: number) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(n);
 }
