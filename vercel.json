@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/.next",
+  "framework": "nextjs",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://your-backend.railway.app/api/:path*" }
+  ],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@insurecalc_api_url"
+  }
+}

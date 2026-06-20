@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --teal-950: #001a1a;
+  --teal-900: #002a2a;
+  --teal-800: #003838;
+  --teal-700: #004d4d;
+  --teal-600: #006666;
+  --teal-500: #008080;
+  --teal-400: #00a3a3;
+  --green-money: #00b894;
+  --green-light: #00d2a8;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--teal-950);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* ── Typography ── */
+.font-display { font-family: var(--font-display), Georgia, serif; }
+.font-mono-custom { font-family: var(--font-mono), monospace; }
+
+/* ── Glass cards ── */
+.glass {
+  background: rgba(0, 42, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 184, 148, 0.15);
+}
+
+.glass-strong {
+  background: rgba(0, 56, 56, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 184, 148, 0.25);
+}
+
+/* ── Inputs ── */
+.input-teal {
+  background: rgba(0, 77, 77, 0.3);
+  border: 1px solid rgba(0, 184, 148, 0.25);
+  color: white;
+  transition: all 0.2s;
+}
+.input-teal:focus {
+  outline: none;
+  border-color: var(--green-money);
+  box-shadow: 0 0 0 2px rgba(0, 184, 148, 0.15);
+}
+.input-teal::placeholder { color: rgba(255,255,255,0.3); }
+.input-teal option { background: #002a2a; }
+
+/* ── Animated number ── */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-in { animation: slideIn 0.6s ease-out forwards; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--teal-900); }
+::-webkit-scrollbar-thumb { background: var(--teal-700); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-money); }
+
+/* ── Range slider ── */
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 4px;
+  background: rgba(0,184,148,0.2);
+  border-radius: 2px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--green-money);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--teal-900);
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--green-money), var(--teal-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Button ── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--green-money), #009b7d);
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+.btn-primary:hover::after { background: rgba(255,255,255,0.08); }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+  background: rgba(0,77,77,0.5);
+  border: 1px solid rgba(0,184,148,0.3);
+  color: var(--green-money);
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  background: rgba(0,184,148,0.1);
+  border-color: var(--green-money);
+}
+
+/* ── Glow effects ── */
+.glow-green { box-shadow: 0 0 30px rgba(0,184,148,0.2); }
+.glow-teal  { box-shadow: 0 0 30px rgba(0,103,103,0.3); }
+
+/* ── Model badge colours ── */
+.badge-gold   { background: rgba(255,196,0,0.15); color: #ffc400; border: 1px solid rgba(255,196,0,0.3); }
+.badge-silver { background: rgba(192,192,192,0.15); color: #c0c0c0; border: 1px solid rgba(192,192,192,0.3); }
+.badge-bronze { background: rgba(205,127,50,0.15); color: #cd7f32; border: 1px solid rgba(205,127,50,0.3); }
+.badge-plain  { background: rgba(0,77,77,0.3); color: #7ecece; border: 1px solid rgba(0,77,77,0.5); }
